@@ -3,8 +3,9 @@ import MobxReactForm from "mobx-react-form";
 import { Passportfields } from "../form/formFieldsRule/PassportFormRule";
 import FormInput from "./UI/FormInput";
 import { hooks, plugins } from "../form";
+import { observer } from "mobx-react-lite";
 
-const PassportForm = () => {
+const PassportForm = observer(() => {
   const form = new MobxReactForm(
     { fields: Passportfields },
     { plugins, hooks }
@@ -32,6 +33,6 @@ const PassportForm = () => {
       </div>
     </div>
   );
-};
+});
 
 export default PassportForm;

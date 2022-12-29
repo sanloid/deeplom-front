@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import UserDataStore from "../../store/UserDataStore";
 import MobxReactForm from "mobx-react-form";
+import { observer } from "mobx-react-lite";
 
 export interface IFormInput {
   form: MobxReactForm;
   paramName: string;
 }
 
-const FormInput: React.FC<IFormInput> = ({ paramName, form }) => {
+const FormInput: React.FC<IFormInput> = observer(({ paramName, form }) => {
   const [value, setValue] = useState("");
   return (
     <div className="flex justify-center m-2">
@@ -24,6 +25,6 @@ const FormInput: React.FC<IFormInput> = ({ paramName, form }) => {
       </div>
     </div>
   );
-};
+});
 
 export default FormInput;

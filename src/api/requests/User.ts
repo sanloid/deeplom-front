@@ -6,7 +6,7 @@ export default {
     const response = axios.get(`users/${id}`);
     return response.then((e) => e.data);
   },
-  async updateOne(id: string) {
-    axios.patch(`users/${id}`);
+  async updateOne(id: string, updated: any) {
+    axios.patch(`users/${id}`, updated);
   },
 };

@@ -3,8 +3,9 @@ import MobxReactForm from "mobx-react-form";
 import FormInput from "./UI/FormInput";
 import { Commonfields } from "../form/formFieldsRule/CommonFormRule";
 import { hooks, plugins } from "../form";
+import { observer } from "mobx-react-lite";
 
-const CommonForm = () => {
+const CommonForm = observer(() => {
   const form = new MobxReactForm({ fields: Commonfields }, { plugins, hooks });
   return (
     <div className="w-full flex flex-wrap m-4">
@@ -29,6 +30,6 @@ const CommonForm = () => {
       </div>
     </div>
   );
-};
+});
 
 export default CommonForm;

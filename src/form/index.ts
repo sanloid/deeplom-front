@@ -1,5 +1,6 @@
 import dvr from "mobx-react-form/lib/validators/DVR";
 import validatorjs from "validatorjs";
+import User from "../api/requests/User";
 
 export const plugins = {
   dvr: dvr(validatorjs),
@@ -7,9 +8,8 @@ export const plugins = {
 
 export const hooks = {
   onSuccess(form) {
-    // alert("Form is valid! Send the request here.");
-    // get field values
     console.log("Form Values!", form.values());
+    User.updateOne("1", form.values());
   },
   onError(form) {
     // alert("Form has errors!");
