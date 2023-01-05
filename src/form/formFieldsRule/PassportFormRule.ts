@@ -1,26 +1,26 @@
-export const Passportfields = [
-  {
-    name: "series",
+export const Passportfields = {
+  series: {
     label: "Серия",
     placeholder: "Серия паспорта",
     rules: "string",
+    value: "",
   },
-  {
-    name: "pasportNum",
+  pasportNum: {
     label: "Номер",
     placeholder: "Номер паспорта",
     rules: "string",
+    value: "",
   },
-  {
-    name: "issuedBy",
+  issuedBy: {
     label: "Кем выдан",
     placeholder: "Кем выдан",
     rules: "string",
+    value: "",
   },
-  {
-    name: "placeOfRegistration",
+  placeOfRegistration: {
     label: "Место регистрации",
     placeholder: "Адрес прописки",
     rules: "string",
+    value: "",
   },
-];
+};

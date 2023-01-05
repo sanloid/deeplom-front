@@ -4,14 +4,8 @@ export interface IChip {
   name: string;
 }
 
-export enum EChip {
-  Adress = "Адрес",
-  Passport = "Паспортные данные",
-  CommonData = "Общие данные",
-}
-
-const Chip: React.FC<IChip> = ({ name }) => {
-  return (
+const Chip = ({ name }: IChip) => {
+  return () => (
     <span className="m-2 px-4 py-2 rounded-full text-gray-500 bg-gray-200 font-semibold text-sm flex align-center w-max cursor-pointer hover:bg-gray-100 transition duration-300 ease">
       {name}
       <button className="bg-transparent hover focus:outline-none">
@@ -35,4 +29,8 @@ const Chip: React.FC<IChip> = ({ name }) => {
   );
 };
 
-export default Chip;
+export default {
+  Common: Chip({ name: "Общие данные" }),
+  Adress: Chip({ name: "Адрес" }),
+  Passport: Chip({ name: "Паспортные данные" }),
+};

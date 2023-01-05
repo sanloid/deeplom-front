@@ -1,52 +1,32 @@
 import React from "react";
-import { EChip } from "../components/UI/Chip";
-import TableRow, { ITableRow } from "../components/UI/TableRow";
+import TableBuilder from "../components/TableBuilder";
+import Chip from "../components/UI/Chip";
+import { ITableRow } from "../components/UI/TableRow";
 
 const Cabinet: React.FC = () => {
   const tableRows: ITableRow[] = [
     {
       name: "Operator 1",
-      permission: [EChip.Adress, EChip.CommonData, EChip.Passport],
+      content: [Chip.Adress(), Chip.Common()],
     },
     {
       name: "Operator 2",
-      permission: [EChip.CommonData, EChip.Passport],
+      content: [Chip.Adress(), Chip.Common()],
     },
     {
       name: "Operator 3",
-      permission: [EChip.CommonData, EChip.Passport],
+      content: [Chip.Adress(), Chip.Common()],
     },
     {
       name: "Operator 4",
-      permission: [EChip.CommonData],
+      content: [Chip.Adress(), Chip.Common(), Chip.Passport()],
     },
   ];
   return (
-    <div className="container mx-auto flex-grow">
-      <table className="min-w-full">
-        <thead className="bg-white border-b">
-          <tr>
-            <th
-              scope="col"
-              className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-            >
-              Имя оператора
-            </th>
-            <th
-              scope="col"
-              className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-            >
-              Доступ
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {tableRows.map((e) => (
-            <TableRow {...e} key={e.name} />
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <TableBuilder
+      columnNames={["Имя оператора", "Доступ"]}
+      tableRows={tableRows}
+    />
   );
 };
 

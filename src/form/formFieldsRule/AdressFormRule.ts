@@ -1,38 +1,38 @@
-export const Adressfields = [
-  {
-    name: "country",
+export const Adressfields = {
+  country: {
     label: "Страна",
     placeholder: "Страна",
     rules: "string",
+    value: "",
   },
-  {
-    name: "city",
+  city: {
     label: "Населенный пункт",
     placeholder: "Город",
     rules: "string",
+    value: "",
   },
-  {
-    name: "area",
+  area: {
     label: "Область",
     placeholder: "Область",
     rules: "string",
+    value: "",
   },
-  {
-    name: "street",
+  street: {
     label: "Улица",
     placeholder: "Улица",
     rules: "string",
+    value: "",
   },
-  {
-    name: "houseNum",
+  houseNum: {
     label: "Дом",
     placeholder: "Дом",
     rules: "string",
+    value: "",
   },
-  {
-    name: "flat",
+  flat: {
     label: "Квартира",
     placeholder: "Квартира",
     rules: "string",
+    value: "",
   },
-];
+};
