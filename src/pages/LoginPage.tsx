@@ -1,6 +1,22 @@
-import React from "react";
+import jwt_decode from "jwt-decode";
+import React, { useEffect, useState } from "react";
+import { redirect, useNavigate } from "react-router-dom";
+import Auth, { LoginDTO } from "../api/requests/Auth";
+import UserDataStore from "../store/UserDataStore";
 
 const LoginPage: React.FC = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (UserDataStore.checkAuth()) navigate("/cabinet");
+  }, []);
+
+  const login = async () => {
+    const res = await Auth.login(logPas);
+    if (UserDataStore.checkAuth()) navigate("/cabinet");
+    // console.log(res);
+  };
+  const [logPas, setLogPas] = useState<LoginDTO>({ login: "", password: "" });
+
   return (
     <div className="container mx-auto">
       <section className="h-screen">
@@ -79,8 +95,12 @@ const LoginPage: React.FC = () => {
                 <div className="mb-6">
                   <input
                     type="text"
+                    onChange={(e) =>
+                      setLogPas({ ...logPas, login: e.target.value })
+                    }
+                    value={logPas.login}
                     className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                    id="exampleFormControlInput2"
+                    id="login"
                     placeholder="Email address or login"
                   />
                 </div>
@@ -88,8 +108,12 @@ const LoginPage: React.FC = () => {
                 <div className="mb-6">
                   <input
                     type="password"
+                    onChange={(e) =>
+                      setLogPas({ ...logPas, password: e.target.value })
+                    }
+                    value={logPas.password}
                     className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                    id="exampleFormControlInput2"
+                    id="password"
                     placeholder="Password"
                   />
                 </div>
@@ -116,19 +140,20 @@ const LoginPage: React.FC = () => {
                 <div className="text-center lg:text-left">
                   <button
                     type="button"
+                    onClick={() => login()}
                     className="inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
                   >
                     Login
                   </button>
                   <p className="text-sm font-semibold mt-2 pt-1 mb-0">
                     Don't have an account?
-                    <a
-                      href="#!"
-                      className="text-red-600 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out"
-                    >
-                      Register
-                    </a>
                   </p>
+                  <a
+                    href="#!"
+                    className="text-red-600 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out"
+                  >
+                    Register
+                  </a>
                 </div>
               </form>
             </div>

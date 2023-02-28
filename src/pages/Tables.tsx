@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
-import React from "react";
+import React, { useEffect } from "react";
+import { Navigate } from "react-router-dom";
 import {
   AdressForm,
   CommonForm,
@@ -8,6 +9,15 @@ import {
 import UserDataStore from "../store/UserDataStore";
 
 const Tables: React.FC = observer(() => {
+  useEffect(() => {
+    UserDataStore.getOne();
+  }, []);
+
+  const authenticated = UserDataStore.checkAuth();
+  if (!authenticated) {
+    return <Navigate replace to="/login" />;
+  }
+
   return (
     <div className="container mx-auto flex-grow">
       <section className="text-gray-600 body-font overflow-hidden">

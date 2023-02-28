@@ -1,6 +1,7 @@
 import dvr from "mobx-react-form/lib/validators/DVR";
 import validatorjs from "validatorjs";
 import User from "../api/requests/User";
+import jwt_decode from "jwt-decode";
 
 export const plugins = {
   dvr: dvr(validatorjs),
@@ -8,18 +9,17 @@ export const plugins = {
 
 export const hooks = {
   onSuccess(form) {
-    console.log("Form Values!", form.values());
-    console.log(form);
-    User.updateOne("1", form.values());
+    let token = localStorage.getItem("token");
+    let decoded = token ? jwt_decode(token) : null;
+    User.updateOne(decoded.id, form.values());
   },
   onError(form) {
-    // alert("Form has errors!");
-    // get all form errors
     console.log("All form errors", form.errors());
   },
   onSubmit(form) {
-    User.updateOne("1", form.values());
-    console.log("submited");
+    let token = localStorage.getItem("token");
+    let decoded = token ? jwt_decode(token) : null;
+    User.updateOne(decoded.id, form.values());
   },
   onInit(form) {
     // console.log("inited");

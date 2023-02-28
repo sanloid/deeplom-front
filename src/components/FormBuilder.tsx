@@ -40,8 +40,6 @@ const FormBuilder = ({ form, formLabel, rules }: IFormBuilder) => {
   };
 };
 
-// export default FormBuilder;
-
 export const AdressForm = FormBuilder({
   form: new MobxReactForm({ fields: Adressfields }, { plugins, hooks }),
   rules: Adressfields,

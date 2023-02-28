@@ -3,7 +3,11 @@ import env from "./env";
 
 const instance = axios.create({
   baseURL: env.baseApiUrl,
-  headers: { "Access-Control-Allow-Origin": "*" },
+  // withCredentials: true,
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+  },
 });
 
 export default instance;
