@@ -1,19 +1,17 @@
-import jwt_decode from "jwt-decode";
 import React, { useEffect, useState } from "react";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Auth, { LoginDTO } from "../api/requests/Auth";
 import UserDataStore from "../store/UserDataStore";
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   useEffect(() => {
-    if (UserDataStore.checkAuth()) navigate("/cabinet");
+    if (UserDataStore.checkAuth()) navigate("/operators");
   }, []);
 
   const login = async () => {
     const res = await Auth.login(logPas);
-    if (UserDataStore.checkAuth()) navigate("/cabinet");
-    // console.log(res);
+    if (UserDataStore.checkAuth()) navigate("/operators");
   };
   const [logPas, setLogPas] = useState<LoginDTO>({ login: "", password: "" });
 
