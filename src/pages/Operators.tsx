@@ -1,5 +1,5 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Chip from "../components/UI/Chip";
 import UserDataStore from "../store/UserDataStore";
 
@@ -22,10 +22,14 @@ const Operators: React.FC = () => {
       content: [Chip.Adress(), Chip.Common(), Chip.Passport()],
     },
   ];
-  const authenticated = UserDataStore.checkAuth();
-  if (!authenticated) {
-    return <Navigate replace to="/login" />;
-  }
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const authenticated = UserDataStore.checkAuth();
+    if (!UserDataStore.checkAuth()) navigate("/login");
+  }, []);
+
   return (
     <div className="container mx-auto flex-grow">
       <table className="min-w-full">

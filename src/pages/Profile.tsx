@@ -1,18 +1,19 @@
 import React, { useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import { Navigate } from "react-router-dom";
-import TableRow from "../components/UI/TableRow";
+import { useNavigate } from "react-router-dom";
 import UserDataStore from "../store/UserDataStore";
 import { Translate } from "../types/paramName";
+import TableContent from "../components/UI/TableContent";
 
-const Profile = () => {
-  const authenticated = UserDataStore.checkAuth();
-  if (!authenticated) {
-    return <Navigate replace to="/login" />;
-  }
+const Profile: React.FC = () => {
+  const navigate = useNavigate();
 
   useEffect(() => {
-    UserDataStore.getOne();
+    if (!UserDataStore.checkAuth()) navigate("/login");
+    else {
+      const fetch = async () => UserDataStore.getOne();
+      fetch();
+    }
   }, []);
 
   const keys = Object.keys(Object(Translate));
@@ -20,8 +21,13 @@ const Profile = () => {
   const tableRows = keys.map((e) => {
     const name = Translate[e];
     const value = UserDataStore.oneResponse?.[e];
-    return { name: [name], content: value };
+    return { name: name, content: value };
   });
+
+  if (UserDataStore.loadingOne) {
+    console.log("loading");
+    return <>loading...</>;
+  }
 
   return (
     <div className="container mx-auto flex-grow">
@@ -43,9 +49,7 @@ const Profile = () => {
           </tr>
         </thead>
         <tbody>
-          {tableRows.map((e) => (
-            <TableRow name={e.name} content={e.content} key={e.name} />
-          ))}
+          <TableContent TableRows={tableRows} />
         </tbody>
       </table>
     </div>

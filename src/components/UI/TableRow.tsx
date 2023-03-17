@@ -62,4 +62,4 @@ const TableRow: React.FC<ITableRow> = ({ name, content }) => {
   );
 };
 
-export default TableRow;
+export default observer(TableRow);

@@ -5,6 +5,7 @@ import UserDataStore from "../store/UserDataStore";
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
+
   useEffect(() => {
     if (UserDataStore.checkAuth()) navigate("/operators");
   }, []);

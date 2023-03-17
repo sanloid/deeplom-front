@@ -1,4 +1,4 @@
-import { observable, makeObservable, runInAction } from "mobx";
+import { observable, makeObservable, runInAction, action } from "mobx";
 import getUserInfo from "../api/requests/User";
 import { UserAPIType } from "../types/userApiType";
 import jwt_decode from "jwt-decode";
@@ -11,6 +11,7 @@ class UserDataStore {
   constructor() {
     makeObservable(this, {
       oneResponse: observable,
+      getOne: action,
     });
   }
 
@@ -20,14 +21,17 @@ class UserDataStore {
     else {
       const decoded = jwt_decode(token);
       const expiresIn = decoded.exp;
-      if (decoded.exp < Date.now()) return true;
+      if (expiresIn < Date.now()) return true;
       else return false;
     }
   };
 
   getOne = async (): Promise<void> => {
     try {
-      this.loadingOne = true;
+      runInAction(() => {
+        this.loadingOne = true;
+      });
+      console.log(this.loadingOne);
       let token = localStorage.getItem("token");
       let decoded = token ? jwt_decode(token) : null;
       if (decoded) {
@@ -41,6 +45,7 @@ class UserDataStore {
     } finally {
       runInAction(() => {
         this.loadingOne = false;
+        console.log(this.loadingOne);
       });
     }
   };

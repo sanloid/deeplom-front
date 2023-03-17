@@ -1,7 +1,7 @@
 export enum Translate {
+  lastName = "Фамилия",
   firstName = "Имя",
   secondName = "Отчество",
-  lastName = "Фамилия",
   gender = "Пол",
   role = "Роль",
   phoneNumber = "Номер телефона",
