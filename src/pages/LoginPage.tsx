@@ -6,13 +6,9 @@ import UserDataStore from "../store/UserDataStore";
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (UserDataStore.checkAuth()) navigate("/operators");
-  }, []);
-
   const login = async () => {
-    const res = await Auth.login(logPas);
-    if (UserDataStore.checkAuth()) navigate("/operators");
+    await Auth.login(logPas);
+    navigate("/profile");
   };
   const [logPas, setLogPas] = useState<LoginDTO>({ login: "", password: "" });
 

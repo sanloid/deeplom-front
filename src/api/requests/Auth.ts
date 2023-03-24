@@ -1,19 +1,24 @@
-import axios from "../axios";
+import axios from "axios";
+import env from "../env";
 
 export interface LoginDTO {
   login: string;
   password: string;
 }
 
+export interface LoginResponseDTO {
+  access_token: string;
+}
+
 export default {
   async login({ login, password }: LoginDTO) {
-    const token = (
-      await axios.post(`/auth/login`, {
+    const token: LoginResponseDTO = (
+      await axios.post(`${env.baseApiUrl}auth/login`, {
         login: login,
         password: password,
       })
-    ).data.token;
-    localStorage.setItem("token", token);
+    ).data;
+    localStorage.setItem("token", token.access_token);
     return token;
   },
 };

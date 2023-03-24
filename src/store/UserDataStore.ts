@@ -1,51 +1,61 @@
-import { observable, makeObservable, runInAction, action } from "mobx";
-import getUserInfo from "../api/requests/User";
-import { UserAPIType } from "../types/userApiType";
+import { observable, makeObservable, runInAction, action, toJS } from "mobx";
+import User from "../api/requests/User";
+import { DecodedToken } from "../types/decodedTokenType";
 import jwt_decode from "jwt-decode";
+import { UserApiReponse } from "../types/UserApiResponse";
 
 class UserDataStore {
-  oneResponse: UserAPIType | undefined;
+  oneResponse: UserApiReponse | undefined | null;
 
   loadingOne: boolean = false;
-
   constructor() {
     makeObservable(this, {
       oneResponse: observable,
       getOne: action,
+      setDefaultOneResponse: action,
     });
   }
 
-  checkAuth = () => {
-    let token = localStorage.getItem("token");
-    if (token === null) return false;
-    else {
-      const decoded = jwt_decode(token);
-      const expiresIn = decoded.exp;
-      if (expiresIn < Date.now()) return true;
-      else return false;
-    }
+  getDecodedAccessToken = (): DecodedToken => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const decoded: DecodedToken = jwt_decode(token);
+      return decoded;
+    } else
+      return {
+        id: 0,
+        iat: 0,
+        exp: 0,
+        role: "",
+        login: "",
+      };
+  };
+
+  logout = () => {
+    localStorage.removeItem("token");
+    this.setDefaultOneResponse();
+  };
+
+  setDefaultOneResponse = () => {
+    this.oneResponse = null;
   };
 
   getOne = async (): Promise<void> => {
     try {
       runInAction(() => {
         this.loadingOne = true;
+        // console.log(this.loadingOne);
       });
-      console.log(this.loadingOne);
-      let token = localStorage.getItem("token");
-      let decoded = token ? jwt_decode(token) : null;
-      if (decoded) {
-        const response = await getUserInfo.getOne(decoded.id);
-        runInAction(() => {
-          this.oneResponse = response;
-        });
-      }
+      const response = await User.getOne(this.getDecodedAccessToken().id);
+      runInAction(() => {
+        this.oneResponse = response;
+      });
     } catch (error) {
       console.error(error);
     } finally {
       runInAction(() => {
         this.loadingOne = false;
-        console.log(this.loadingOne);
+        // console.log(this.loadingOne);
       });
     }
   };

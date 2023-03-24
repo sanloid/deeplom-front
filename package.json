@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/validatorjs": "^3.15.0",
     "autoprefixer": "^10.4.13",
     "axios": "^1.2.2",
     "jwt-decode": "^3.1.2",
@@ -20,6 +21,7 @@
     "react-dom": "^18.2.0",
     "react-error-boundary": "^3.1.4",
     "react-icons": "^4.7.1",
+    "react-json-to-table": "^0.1.7",
     "react-router-dom": "^6.6.1",
     "tailwindcss": "^3.2.4",
     "validatorjs": "^3.22.1"

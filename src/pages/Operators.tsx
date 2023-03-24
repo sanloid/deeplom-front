@@ -25,49 +25,9 @@ const Operators: React.FC = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const authenticated = UserDataStore.checkAuth();
-    if (!UserDataStore.checkAuth()) navigate("/login");
-  }, []);
+  useEffect(() => {}, []);
 
-  return (
-    <div className="container mx-auto flex-grow">
-      <table className="min-w-full">
-        <thead className="bg-white border-b">
-          <tr>
-            <th
-              scope="col"
-              className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-            >
-              Оператор
-            </th>
-            <th
-              scope="col"
-              className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-            >
-              Доступ
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {tableRows.map((e) => (
-            <tr className="bg-gray-100 border-b hover:bg-gray-300" key={e.name}>
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                {e.name}
-              </td>
-              <td className="flex text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                <div className="">
-                  <div className="flex flex-row text-center place-self-center">
-                    {e.content}
-                  </div>
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
+  return <div className="mx-auto mb-auto"></div>;
 };
 
 export default Operators;

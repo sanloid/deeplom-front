@@ -1,20 +1,22 @@
-import { Translate } from "../../types/paramName";
-import { UserAPIType } from "../../types/userApiType";
+import UserDataStore from "../../store/UserDataStore";
 import axios from "../axios";
 
 export default {
-  async getOne(id: string): Promise<UserAPIType> {
-    const response = axios.get(`users/${id}`);
-    return response.then((e) => e.data);
+  async getOne(id: number): Promise<any> {
+    const response = axios.get(`users/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return response.then((e) => {
+      return e.data;
+    });
   },
   async updateOne(id: string, updated: any) {
     axios.patch(`users/${id}`, updated);
   },
   async updateOneAtr(id: string | undefined, value: string, name: string) {
-    const keys = Object.keys(Object(Translate));
-    const realName = keys.filter((e) => Translate[e] == name)[0];
-    // console.log(realName);
-    if (id) axios.patch(`users/one/${id}`, { value: value, name: realName });
+    if (id) axios.patch(`users/one/${id}`);
   },
   async getAdress(id: string) {
     const response = axios.get(`users/adress/${id}`);
