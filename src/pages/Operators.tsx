@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Chip from "../components/UI/Chip";
-import UserDataStore from "../store/UserDataStore";
 
 const Operators: React.FC = () => {
   const tableRows = [
@@ -22,10 +21,6 @@ const Operators: React.FC = () => {
       content: [Chip.Adress(), Chip.Common(), Chip.Passport()],
     },
   ];
-
-  const navigate = useNavigate();
-
-  useEffect(() => {}, []);
 
   return <div className="mx-auto mb-auto"></div>;
 };
