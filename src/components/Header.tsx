@@ -1,19 +1,33 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import UserDataStore from "../store/UserDataStore";
+import { toJS } from "mobx";
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
+
+  const role = useMemo(() => {
+    const token = localStorage.getItem("token");
+    const decodedToken = token ? JSON.parse(atob(token.split(".")[1])) : null;
+    return decodedToken ? decodedToken.role : "";
+  }, [localStorage.getItem("token")]);
 
   const logout = () => {
     UserDataStore.logout();
     navigate("/login");
   };
 
-  const headerContent = [
-    { title: "Операторы", to: "operators" },
-    { title: "Профиль", to: "profile" },
-  ];
+  const headerContent = useMemo(
+    () => [
+      {
+        title: role === "USER" ? "Мои операторы" : "Мои пользователи",
+        to: role === "USER" ? "operators" : "users",
+      },
+      { title: "Профиль", to: "profile" },
+    ],
+    [role]
+  );
+
   return (
     <header className="text-gray-600 body-font">
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
@@ -36,15 +50,22 @@ const Header: React.FC = () => {
           {headerContent.map((e) => (
             <NavLink
               key={e.title}
-              className="flex text-center align-middle cursor-pointer mr-5 hover:text-gray-900"
+              className="flex text-center align-middle cursor-pointer mr-5 transition duration-300 ease-in-out hover:text-gray-900 hover:scale-110"
               to={e.to}
             >
               {e.title}
             </NavLink>
           ))}
+          <div className="mr-5">
+            <img
+              className="flex w-10 h-10 rounded-full"
+              src={UserDataStore.oneResponse?.photo}
+              alt=""
+            />
+          </div>
           <div className="flex space-x-2 justify-center">
             <button
-              onClick={() => logout()}
+              onClick={logout}
               type="button"
               className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
             >

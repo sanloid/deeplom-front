@@ -1,13 +1,31 @@
 export interface UserApiReponse {
+  id: string;
   login: string;
-  role: string;
-  Adress: IAdress;
+  role?: string;
+  email: string;
+  description: string;
+  photo: string;
+  Address: IAddress;
   Passport: IPassport;
   FIO: IFio;
   Common: ICommon;
 }
 
-export interface IAdress {
+export type OperatorsPermissions = OperPerm[];
+
+export interface OperPerm {
+  id: number;
+  login: string;
+  Address: boolean;
+  Passport: boolean;
+  UserName: boolean;
+  Common: boolean;
+  firstName?: string;
+  secondName?: string;
+  lastName?: string;
+}
+
+export interface IAddress {
   city: string;
   country: string;
   area: string;
@@ -35,4 +53,4 @@ export interface ICommon {
   dateOfBirth: string;
 }
 
-export type UserData = IAdress | ICommon | IFio | IPassport;
+export type UserData = IAddress | ICommon | IFio | IPassport;

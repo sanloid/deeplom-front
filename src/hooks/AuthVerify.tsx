@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import UserDataStore from "./store/UserDataStore";
+import UserDataStore from "../store/UserDataStore";
 
 const AuthVerify: React.FC = () => {
-  let location = useLocation();
+  const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {

@@ -1,24 +1,42 @@
 import React from "react";
-import { hooks, plugins } from "../formcfg";
+import { plugins } from "../formcfg";
 import UserDataStore from "../../store/UserDataStore";
 import MobxReactForm from "mobx-react-form";
 import FormBase from "../FormBase";
+import User from "../../api/requests/User";
 
 const CommonForm: React.FC = () => {
+  const hooks = {
+    onSuccess(form) {
+      User.updateCommon(
+        UserDataStore.getDecodedAccessToken().id,
+        form.values()
+      );
+    },
+    onSubmit(form) {},
+    onError(form) {},
+  };
+
   const fields = [
     {
       name: "phoneNumber",
       label: "Номер телефона",
+      type: "text",
       placeholder: "Номер телефона",
       rules: "required|string|between:5,25",
-      value: UserDataStore.oneResponse?.Common.phoneNumber || null,
+      value: UserDataStore.oneResponse?.Common
+        ? UserDataStore.oneResponse.Common.phoneNumber
+        : "",
     },
     {
       name: "dateOfBirth",
       label: "Дата рождения",
+      type: "date",
       placeholder: "Дата рождения",
       rules: "required|string|between:5,25",
-      value: UserDataStore.oneResponse?.Common.dateOfBirth || null,
+      value: UserDataStore.oneResponse?.Common
+        ? UserDataStore.oneResponse.Common.dateOfBirth
+        : "",
     },
   ];
   const CommonForm = new MobxReactForm({ fields }, { plugins, hooks });

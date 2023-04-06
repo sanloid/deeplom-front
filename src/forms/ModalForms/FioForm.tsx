@@ -1,31 +1,45 @@
 import React from "react";
-import { hooks, plugins } from "../formcfg";
+import { plugins } from "../formcfg";
 import UserDataStore from "../../store/UserDataStore";
 import MobxReactForm from "mobx-react-form";
 import FormBase from "../FormBase";
+import User from "../../api/requests/User";
 
 const FioForm: React.FC = () => {
+  const hooks = {
+    onSuccess(form) {
+      User.updateFIO(UserDataStore.getDecodedAccessToken().id, form.values());
+    },
+    onSubmit(form) {},
+    onError(form) {},
+  };
   const fields = [
     {
       name: "firstName",
       label: "Имя",
       placeholder: "Имя",
       rules: "required|string|between:5,25",
-      value: UserDataStore.oneResponse?.FIO.firstName || null,
+      value: UserDataStore.oneResponse?.FIO
+        ? UserDataStore.oneResponse.FIO.firstName
+        : "",
     },
     {
       name: "lastName",
       label: "Фамилия",
       placeholder: "Фамилия",
       rules: "required|string|between:5,25",
-      value: UserDataStore.oneResponse?.FIO.lastName || null,
+      value: UserDataStore.oneResponse?.FIO
+        ? UserDataStore.oneResponse.FIO.lastName
+        : "",
     },
     {
       name: "secondName",
       label: "Отчество",
       placeholder: "Отчество",
       rules: "required|string|between:5,25",
-      value: UserDataStore.oneResponse?.FIO.secondName || null,
+      value: UserDataStore.oneResponse?.FIO
+        ? UserDataStore.oneResponse.FIO.secondName
+        : "",
     },
   ];
   const fioForm = new MobxReactForm({ fields }, { plugins, hooks });

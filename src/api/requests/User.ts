@@ -1,25 +1,65 @@
-import UserDataStore from "../../store/UserDataStore";
+import { UpdatePermissionDto } from "../../types/UserApiRequest";
+import {
+  IAddress,
+  ICommon,
+  IFio,
+  IPassport,
+  OperatorsPermissions,
+} from "../../types/UserApiResponse";
 import axios from "../axios";
 
 export default {
   async getOne(id: number): Promise<any> {
-    const response = axios.get(`users/${id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
+    const response = axios.get(`users/${id}`);
     return response.then((e) => {
       return e.data;
     });
   },
-  async updateOne(id: string, updated: any) {
-    axios.patch(`users/${id}`, updated);
+  async updateAddress(id: number, updateAddressDto: IAddress): Promise<any> {
+    const response = await axios.patch(`users/address/${id}`, {
+      ...updateAddressDto,
+    });
+    // console.log(response);
+    return response.data;
   },
-  async updateOneAtr(id: string | undefined, value: string, name: string) {
-    if (id) axios.patch(`users/one/${id}`);
+  async updateCommon(id: number, updateCommonDto: ICommon): Promise<any> {
+    const body = {
+      ...updateCommonDto,
+      dateOfBirth: new Date(updateCommonDto.dateOfBirth).toISOString(),
+    };
+    const response = await axios.patch(`users/common/${id}`, { ...body });
+    // console.log(response);
+    return response.data;
   },
-  async getAdress(id: string) {
-    const response = axios.get(`users/adress/${id}`);
-    return response.then((e) => e.data);
+  async updateFIO(id: number, updateFIODto: IFio): Promise<any> {
+    const response = await axios.patch(`users/fio/${id}`, {
+      ...updateFIODto,
+    });
+    // console.log(response);
+    return response.data;
+  },
+  async updatePassport(id: number, updatePassportDto: IPassport): Promise<any> {
+    const body = {
+      ...updatePassportDto,
+      issuedWhen: new Date(updatePassportDto.issuedWhen).toISOString(),
+    };
+    const response = await axios.patch(`users/passport/${id}`, { ...body });
+    // console.log(response);
+    return response.data;
+  },
+  async getOperatorsPermission(id: number): Promise<OperatorsPermissions> {
+    const response = await axios.get(`users/operators/${id}`);
+    // console.log(response);
+    return response.data;
+  },
+  async updateOperatorPermission(
+    id: number,
+    updatePermissionDto: UpdatePermissionDto
+  ): Promise<any> {
+    const response = await axios.patch(`users/permission/${id}`, {
+      ...updatePermissionDto,
+    });
+    // console.log(response);
+    return response.data;
   },
 };

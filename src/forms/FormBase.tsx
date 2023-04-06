@@ -1,5 +1,8 @@
 import React from "react";
-import FormInput from "../components/UI/FormInput";
+import FormInput from "./FormInput";
+import LoadingSpinner from "../components/UI/LoadingSpinner";
+import UserDataStore from "../store/UserDataStore";
+import { observer } from "mobx-react-lite";
 
 export interface IFormBase {
   fields: IFormField[];
@@ -15,33 +18,46 @@ interface IFormField {
 }
 
 const FormBase: React.FC<IFormBase> = ({ fields, renderForm }) => {
-  return (
-    <div className="p-10">
-      <form onSubmit={renderForm.onSubmit}>
-        {fields.map((e) => (
-          <FormInput key={e.name} field={renderForm.$(e.name)} />
-        ))}
-        <br />
-        <button
-          type="submit"
-          className="green-btn"
-          onClick={renderForm.onSubmit}
+  const [loading, setLoading] = React.useState(false);
+
+  if (!loading)
+    return (
+      <div className="p-10">
+        <form
+          onSubmit={async () => {
+            await renderForm.onSubmit(setLoading);
+            await UserDataStore.getOne();
+          }}
         >
-          Submit
-        </button>
-        <button
-          type="button"
-          className="yellow-btn"
-          onClick={renderForm.onClear}
-        >
-          Clear
-        </button>
-        <button type="button" className="red-btn" onClick={renderForm.onReset}>
-          Reset
-        </button>
-      </form>
-    </div>
-  );
+          {fields.map((e) => (
+            <FormInput key={e.name} field={renderForm.$(e.name)} />
+          ))}
+          <br />
+          <button
+            type="submit"
+            className="green-btn"
+            onClick={renderForm.onSubmit}
+          >
+            Submit
+          </button>
+          <button
+            type="button"
+            className="yellow-btn"
+            onClick={renderForm.onClear}
+          >
+            Clear
+          </button>
+          <button
+            type="button"
+            className="red-btn"
+            onClick={renderForm.onReset}
+          >
+            Reset
+          </button>
+        </form>
+      </div>
+    );
+  return <LoadingSpinner />;
 };
 
-export default FormBase;
+export default observer(FormBase);
