@@ -3,6 +3,7 @@ import { observer } from "mobx-react-lite";
 import { AiOutlineEdit } from "react-icons/ai";
 import { UserData } from "../../types/UserApiResponse";
 import { Modal } from "../../components/Modals/Modal";
+import { Table } from "flowbite-react";
 
 export interface ITableProps {
   table: UserData | null;
@@ -19,13 +20,11 @@ const ProfileTable: React.FC<ITableProps> = ({
   return (
     <>
       <div className="overflow-x-auto shadow-md rounded-2xl mb-8 mx-5">
-        <table className="table-default">
-          <thead className="thead-default">
-            <tr>
-              <th scope="col" className="th-default bg-gray-200">
-                {tableName}
-              </th>
-              <th className="th-default bg-gray-200 text-right">
+        <Table>
+          <Table.Head>
+            <Table.Row>
+              <Table.HeadCell>{tableName}</Table.HeadCell>
+              <Table.HeadCell className="flex justify-between">
                 <button
                   onClick={() => setVisible(true)}
                   type="button"
@@ -33,34 +32,24 @@ const ProfileTable: React.FC<ITableProps> = ({
                 >
                   <AiOutlineEdit />
                 </button>
-              </th>
-            </tr>
-            <tr>
-              <th scope="col" className="th-default">
-                Атрибут
-              </th>
-              <th scope="col" className="th-default">
-                Значение
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {table ? (
-              Object.entries(table).map((e) => {
-                return (
-                  <tr key={e[0]} className="tr-default">
-                    <td scope="row" className="td-default">
-                      {e[0]}
-                    </td>
-                    <td className="px-6 py-4">{e[1]}</td>
-                  </tr>
-                );
-              })
-            ) : (
-              <></>
-            )}
-          </tbody>
-        </table>
+              </Table.HeadCell>
+            </Table.Row>
+          </Table.Head>
+          <Table.Body>
+            {table
+              ? Object.entries(table).map((e) => {
+                  return (
+                    <tr key={e[0]} className="tr-default">
+                      <td scope="row" className="td-default">
+                        {e[0]}
+                      </td>
+                      <td className="px-6 py-4">{e[1]}</td>
+                    </tr>
+                  );
+                })
+              : null}
+          </Table.Body>
+        </Table>
       </div>
       <Modal
         visible={visible}

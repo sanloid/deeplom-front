@@ -4,6 +4,7 @@ import LoadingSpinner from "../../components/UI/LoadingSpinner";
 import UserDataStore from "../../store/UserDataStore";
 import OperatorTableRow from "./OperatorTableRow";
 import RoleVerify from "../../hooks/RoleVerify";
+import { Table } from "flowbite-react";
 
 const Operators: React.FC = () => {
   React.useEffect(() => {
@@ -13,24 +14,18 @@ const Operators: React.FC = () => {
     return (
       <>
         <RoleVerify to={"/profile"} role={"USER"} />
-        <div className="mx-auto mb-auto w-full">
-          <div className="overflow-x-auto shadow-md rounded-2xl mb-8 mx-5">
-            <table className="table-default">
-              <thead className="thead-default">
-                <tr className="tr-default bg-gray-200">
-                  <th scope="col" className="th-default">
-                    Operator
-                  </th>
-                  <th className="th-default">Permission</th>
-                </tr>
-              </thead>
-              <tbody>
-                {UserDataStore.userOperator.map((e) => (
-                  <OperatorTableRow {...e} key={e.id} />
-                ))}
-              </tbody>
-            </table>
-          </div>
+        <div className="container mx-auto my-16">
+          <Table className="rounded-full">
+            <Table.Head className="dark:bg-gray-700 dark:text-gray-300 transition duration-300 ease-in-out">
+              <Table.HeadCell>Operator</Table.HeadCell>
+              <Table.HeadCell>Permission</Table.HeadCell>
+            </Table.Head>
+            <Table.Body>
+              {UserDataStore.userOperator.map((e) => (
+                <OperatorTableRow {...e} key={e.id} />
+              ))}
+            </Table.Body>
+          </Table>
         </div>
       </>
     );

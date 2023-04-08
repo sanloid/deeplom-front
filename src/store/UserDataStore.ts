@@ -51,6 +51,7 @@ class UserDataStore {
       });
       const response = await User.getOne(this.getDecodedAccessToken().id);
       runInAction(() => {
+        console.log(response);
         this.oneResponse = response;
       });
     } catch (error) {

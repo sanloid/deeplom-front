@@ -1,7 +1,7 @@
 import React from "react";
 
-const Footer = () => (
-  <footer className="text-gray-600 body-font mt-auto">
+const FooterComponent = () => (
+  <footer className="text-gray-600 body-font mt-auto dark:bg-gray-800 transition duration-300 ease-in-out">
     <div className="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
       <a className="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
         <svg
@@ -16,9 +16,11 @@ const Footer = () => (
         >
           <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
         </svg>
-        <span className="ml-3 text-xl">Para</span>
+        <span className="ml-3 text-xl dark:text-gray-200 transition duration-300 ease-in-out">
+          Para
+        </span>
       </a>
-      <p className="text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4">
+      <p className="text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4 dark:text-gray-500">
         © 2022 Para
       </p>
       <span className="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
@@ -82,4 +84,4 @@ const Footer = () => (
   </footer>
 );
 
-export default Footer;
+export default FooterComponent;
