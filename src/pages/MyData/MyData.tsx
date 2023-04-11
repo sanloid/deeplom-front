@@ -7,7 +7,7 @@ import CommonForm from "../../forms/ModalForms/CommonForm";
 import FioForm from "../../forms/ModalForms/FioForm";
 import PassportForm from "../../forms/ModalForms/PassportForm";
 import { toJS } from "mobx";
-import ProfileTable from "./MyDataTable";
+import MyDataTable from "./MyDataTable";
 
 const MyData: React.FC = () => {
   useEffect(() => {
@@ -43,13 +43,11 @@ const MyData: React.FC = () => {
     },
   ];
 
-  console.log(tableRows);
-
   if (UserDataStore.oneResponse) {
     return (
       <div className="container mx-auto my-10">
         {tableRows.map((e) => (
-          <ProfileTable
+          <MyDataTable
             key={e.tableName}
             table={e.table}
             tableName={e.tableName}

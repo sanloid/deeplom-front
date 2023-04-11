@@ -20,6 +20,8 @@ class UserDataStore {
       operatorUsersData: observable,
       getOne: action,
       getOperatorsPerm: action,
+      getOperatorUsersData: action,
+      logout: action,
     });
   }
 
@@ -40,8 +42,8 @@ class UserDataStore {
 
   logout = () => {
     localStorage.removeItem("token");
-    this.oneResponse = undefined;
-    this.userOperator = undefined;
+    this.oneResponse = null;
+    this.userOperator = null;
   };
 
   getOne = async (): Promise<void> => {
@@ -51,7 +53,6 @@ class UserDataStore {
       });
       const response = await User.getOne(this.getDecodedAccessToken().id);
       runInAction(() => {
-        console.log(response);
         this.oneResponse = response;
       });
     } catch (error) {

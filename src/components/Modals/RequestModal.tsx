@@ -1,4 +1,8 @@
 import React from "react";
+import Operator from "../../api/requests/Operator";
+import UserDataStore from "../../store/UserDataStore";
+import { DataType } from "../../types/UserApiRequest";
+import LoadingSpinner from "../UI/LoadingSpinner";
 
 export interface IRequestModal {
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
@@ -11,7 +15,27 @@ const RequestModal: React.FC<IRequestModal> = ({
   setVisible,
   dataName,
   userLogin,
+  userID,
 }) => {
+  const sendRequestToUserData = async () => {
+    setLoading(true);
+    await Operator.sendRequestToUserData(
+      UserDataStore.getDecodedAccessToken().id,
+      {
+        userId: String(userID),
+        datatype: dataName.toUpperCase() as DataType,
+      }
+    );
+    setLoading(false);
+  };
+  const [loading, setLoading] = React.useState(false);
+
+  if (loading)
+    return (
+      <div className="my-10 flex justify-center">
+        <LoadingSpinner />
+      </div>
+    );
   return (
     <div className="container p-5">
       <div className="flex flex-col">
@@ -23,7 +47,7 @@ const RequestModal: React.FC<IRequestModal> = ({
         </span>
       </div>
       <div className="mt-10 flex justify-between w-1/3 mx-auto">
-        <button onClick={() => 1} className="green-btn">
+        <button onClick={sendRequestToUserData} className="green-btn">
           Yes
         </button>
         <button onClick={() => setVisible(false)} className="red-btn">

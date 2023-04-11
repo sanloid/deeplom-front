@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ChipModal from "../Modals/ChipModal";
-import { Modal } from "../Modals/Modal";
+import { MyModal } from "../Modals/MyModal";
 
 export interface IChip {
   name: string;
@@ -14,7 +14,7 @@ const Chip: React.FC<IChip> = ({ name, operatorID, operatorLogin, value }) => {
   return (
     <>
       <div>
-        <span className="m-2 px-4 py-2 rounded-full text-gray-500 bg-gray-200 font-semibold text-sm flex align-center w-max cursor-pointer hover:bg-gray-100 transition duration-300 ease">
+        <span className="m-2 px-4 py-2 rounded-full text-gray-500 bg-gray-200 dark:bg-gray-900 font-semibold text-sm flex align-center w-max cursor-pointer hover:bg-gray-100 transition duration-300 ease">
           {name}
           <button
             onClick={() => setVisible(true)}
@@ -25,7 +25,7 @@ const Chip: React.FC<IChip> = ({ name, operatorID, operatorLogin, value }) => {
               focusable="false"
               data-prefix="fas"
               data-icon="times"
-              className={`w-3 ml-3 hover:animate-spin ${
+              className={`w-3 ml-3 hover:rotate-45 transition duration-300 ease-in-out ${
                 value ? "rotate-45" : ""
               }`}
               role="img"
@@ -40,7 +40,7 @@ const Chip: React.FC<IChip> = ({ name, operatorID, operatorLogin, value }) => {
           </button>
         </span>
       </div>
-      <Modal
+      <MyModal
         visible={visible}
         setVisible={setVisible}
         name={`Подтверждение`}

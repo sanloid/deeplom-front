@@ -22,7 +22,7 @@ const ChipModal: React.FC<IChipModal> = ({
   if (loading === "default")
     return (
       <>
-        <div className="relative bg-white container p-5 rounded-full">
+        <div className="relative bg-white container p-5 dark:bg-gray-700 rounded-b-full">
           <div className="flex justify-items-center justify-center flex-col mb-5">
             <span className="flex justify-center">
               {value ? (

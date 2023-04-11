@@ -2,7 +2,7 @@ import React, { FC, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { AiOutlineEdit } from "react-icons/ai";
 import { UserData } from "../../types/UserApiResponse";
-import { Modal } from "../../components/Modals/Modal";
+import { MyModal } from "../../components/Modals/MyModal";
 import { Table } from "flowbite-react";
 
 export interface ITableProps {
@@ -20,38 +20,39 @@ const ProfileTable: React.FC<ITableProps> = ({
   return (
     <>
       <div className="overflow-x-auto shadow-md rounded-2xl mb-8 mx-5">
-        <Table>
+        <Table hoverable={true}>
           <Table.Head>
-            <Table.Row>
-              <Table.HeadCell>{tableName}</Table.HeadCell>
-              <Table.HeadCell className="flex justify-between">
-                <button
-                  onClick={() => setVisible(true)}
-                  type="button"
-                  className="inline-block p-2.5 rounded-2xl bg-blue-400 text-white font-medium text-xs leading-tight uppercase shadow-md hover:bg-blue-500 hover:shadow-lg hover:scale-125 transition duration-200 ease-in-out"
-                >
-                  <AiOutlineEdit />
-                </button>
-              </Table.HeadCell>
-            </Table.Row>
+            <Table.HeadCell>{tableName}</Table.HeadCell>
+            <Table.HeadCell className="flex justify-end">
+              <button
+                onClick={() => setVisible(true)}
+                type="button"
+                className="inline-block p-2.5 rounded-2xl bg-blue-400 dark:bg-gray-300 text-white dark:text-black font-medium text-xs leading-tight uppercase shadow-md hover:bg-blue-500 hover:shadow-lg hover:scale-125 transition duration-200 ease-in-out"
+              >
+                <AiOutlineEdit />
+              </button>
+            </Table.HeadCell>
           </Table.Head>
-          <Table.Body>
+          <Table.Body className="dark:bg-gray-800 divide-y">
             {table
               ? Object.entries(table).map((e) => {
                   return (
-                    <tr key={e[0]} className="tr-default">
-                      <td scope="row" className="td-default">
+                    <Table.Row
+                      key={e[0]}
+                      className="tr-default dark:border-gray-700"
+                    >
+                      <Table.Cell scope="row" className="td-default">
                         {e[0]}
-                      </td>
-                      <td className="px-6 py-4">{e[1]}</td>
-                    </tr>
+                      </Table.Cell>
+                      <Table.Cell className="px-6 py-4">{e[1]}</Table.Cell>
+                    </Table.Row>
                   );
                 })
               : null}
           </Table.Body>
         </Table>
       </div>
-      <Modal
+      <MyModal
         visible={visible}
         setVisible={setVisible}
         name={tableName}

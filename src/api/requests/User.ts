@@ -7,6 +7,7 @@ import {
   OperatorsPermissions,
 } from "../../types/UserApiResponse";
 import axios from "../axios";
+import env from "../env";
 
 export default {
   async getOne(id: number): Promise<any> {
@@ -61,5 +62,18 @@ export default {
     });
     // console.log(response);
     return response.data;
+  },
+  async updateProfilePhoto(file: File, id: number): Promise<any> {
+    const formData = new FormData();
+    formData.append("photo", file);
+    const upload = await axios({
+      url: `/users/uploadphoto/${id}`,
+      method: "patch",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "multipart/form-data",
+      },
+      data: formData,
+    });
   },
 };

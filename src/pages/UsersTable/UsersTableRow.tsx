@@ -1,6 +1,6 @@
 import React from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { Modal } from "../../components/Modals/Modal";
+import { MyModal } from "../../components/Modals/MyModal";
 import { toJS } from "mobx";
 import { UserData } from "../../types/UserApiResponse";
 import { JsonToTable } from "react-json-to-table";
@@ -27,7 +27,7 @@ const UsersTableRow: React.FC<IUserTableRow> = ({
       {atr ? (
         <button onClick={() => setVisibleDataModal(true)}>
           <FiEye />
-          <Modal
+          <MyModal
             visible={visibleDataModal}
             setVisible={setVisibleDataModal}
             name={"Данные"}
@@ -38,7 +38,7 @@ const UsersTableRow: React.FC<IUserTableRow> = ({
       ) : (
         <button onClick={() => setVisibleReqModal(true)}>
           <FiEyeOff />
-          <Modal
+          <MyModal
             visible={visibleReqModal}
             setVisible={setVisibleReqModal}
             name={"Запрос данных"}

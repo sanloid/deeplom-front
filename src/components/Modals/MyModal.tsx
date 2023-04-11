@@ -10,7 +10,7 @@ export interface IModal {
   childrenProps?: any;
 }
 
-export const Modal: React.FC<IModal> = ({
+export const MyModal: React.FC<IModal> = ({
   visible,
   setVisible,
   name,
@@ -21,7 +21,10 @@ export const Modal: React.FC<IModal> = ({
   return createPortal(
     <div>
       <div onClick={() => setVisible(false)} className="modal">
-        <div onClick={(e) => e.stopPropagation()} className="modal-content">
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="modal-content dark:bg-gray-700"
+        >
           <ModalHeader name={name} setVisible={setVisible} />
           {children ? children({ ...childrenProps }) : <></>}
         </div>

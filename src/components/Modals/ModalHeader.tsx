@@ -8,7 +8,7 @@ export interface IModalHeader {
 
 const ModalHeader: React.FC<IModalHeader> = ({ name, setVisible }) => {
   return (
-    <div className="p-2 flex justify-between m-2 border-b-2">
+    <div className="p-2 flex justify-between m-2 border-b-2 dark:bg-gray-700 dark:border-gray-800">
       <span className="pl-5 text-2xl flex justify-center flex-col">{name}</span>
       <button
         className="bg-red-500 rounded-full p-2 text-white text-2xl"

@@ -2,7 +2,7 @@ import React from "react";
 import { GrAdd } from "react-icons/gr";
 import { OperPerm } from "../../types/UserApiResponse";
 import AddPermissionModal from "../../components/Modals/AddPermissionModal";
-import { Modal } from "../../components/Modals/Modal";
+import { MyModal } from "../../components/Modals/MyModal";
 import Chip from "../../components/UI/Chip";
 import { Table } from "flowbite-react";
 
@@ -70,7 +70,7 @@ const OperatorTableRow: React.FC<OperPerm> = (operatorPerm) => {
         ) : (
           <></>
         )}
-        <Modal
+        <MyModal
           visible={visible}
           setVisible={setVisible}
           name={"Изменение разрешений"}

@@ -19,10 +19,10 @@ const ThemeToggle = () => {
 
   return (
     <button className="mx-5" onClick={toggleTheme}>
-      {theme === "dark" ? (
-        <BsFillMoonFill className="text-gray-400 " />
+      {theme !== "dark" ? (
+        <BsFillMoonFill className="text-gray-500 " />
       ) : (
-        <BsSunFill />
+        <BsSunFill className="text-gray-400" />
       )}
     </button>
   );

@@ -32,9 +32,9 @@ const AvatarDropdown: React.FC<IAvatarDropdown> = () => {
           {UserDataStore.oneResponse?.email}
         </span>
       </Dropdown.Header>
-      <Dropdown.Item className="dark:text-gray-500">Dashboard</Dropdown.Item>
+      {/* <Dropdown.Item className="dark:text-gray-500">Dashboard</Dropdown.Item>
       <Dropdown.Item className="dark:text-gray-500">Settings</Dropdown.Item>
-      <Dropdown.Item className="dark:text-gray-500">Earnings</Dropdown.Item>
+      <Dropdown.Item className="dark:text-gray-500">Earnings</Dropdown.Item> */}
       <Dropdown.Divider className="dark:text-gray-500" />
       <Dropdown.Item className="dark:text-gray-500" onClick={logout}>
         Sign out
