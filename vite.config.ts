@@ -7,7 +7,8 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://user-data-api.vercel.app",
+        target:
+          "https://64365043f6a68b5de75296e0--curious-nasturtium-93837c.netlify.app/",
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/api/, ""),

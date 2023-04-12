@@ -1,19 +1,23 @@
 import React from "react";
 import { plugins } from "../formcfg";
 import UserDataStore from "../../store/UserDataStore";
+// @ts-ignore
 import MobxReactForm from "mobx-react-form";
 import FormBase from "../FormBase";
 import User from "../../api/requests/User";
 
 const PassportForm: React.FC = () => {
   const hooks = {
+    // @ts-ignore
     onSuccess(form) {
       User.updatePassport(
         UserDataStore.getDecodedAccessToken().id,
         form.values()
       );
     },
+    // @ts-ignore
     onSubmit(form) {},
+    // @ts-ignore
     onError(form) {},
   };
 
