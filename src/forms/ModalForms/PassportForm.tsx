@@ -1,32 +1,55 @@
 import React from "react";
-import { plugins } from "../formcfg";
 import UserDataStore from "../../store/UserDataStore";
-// @ts-ignore
-import MobxReactForm from "mobx-react-form";
 import FormBase from "../FormBase";
 import User from "../../api/requests/User";
+import * as Yup from "yup";
+import { IPassport, UserData } from "../../types/UserApiResponse";
 
 const PassportForm: React.FC = () => {
-  const hooks = {
+  const submit = async (values: UserData) => {
     // @ts-ignore
-    onSuccess(form) {
-      User.updatePassport(
-        UserDataStore.getDecodedAccessToken().id,
-        form.values()
-      );
-    },
-    // @ts-ignore
-    onSubmit(form) {},
-    // @ts-ignore
-    onError(form) {},
+    const isoDate = new Date(values.issuedWhen).toISOString();
+    await User.updatePassport(UserDataStore.getDecodedAccessToken().id, {
+      ...values,
+      // @ts-ignore
+      number: String(values.number),
+      // @ts-ignore
+      series: String(values.series),
+      issuedWhen: isoDate,
+    } as IPassport);
   };
+
+  const validationSchema = Yup.object().shape({
+    number: Yup.number()
+      .required("Введите номер")
+      .test(
+        "len",
+        "Неверная длина номера",
+        (val) => !!val && val.toString().length === 4
+      ),
+    series: Yup.number()
+      .required("Введите серию")
+      .test(
+        "len",
+        "Неверная длина серии",
+        (val) => !!val && val.toString().length === 6
+      ),
+    issuedBy: Yup.string()
+      .required("Кем выдан")
+      .min(2, "Too Short!")
+      .max(50, "Too Long!"),
+    issuedWhen: Yup.string()
+      .required("Дата выдачи")
+      .min(2, "Too Short!")
+      .max(50, "Too Long!"),
+  });
 
   const fields = [
     {
       name: "number",
       label: "Номер",
+      type: "number",
       placeholder: "Номер паспорта",
-      rules: "required|string|between:5,25",
       value: UserDataStore.oneResponse?.Passport
         ? UserDataStore.oneResponse.Passport.number
         : "",
@@ -34,8 +57,8 @@ const PassportForm: React.FC = () => {
     {
       name: "series",
       label: "Серия",
+      type: "number",
       placeholder: "Серия паспорта",
-      rules: "required|string|between:5,25",
       value: UserDataStore.oneResponse?.Passport
         ? UserDataStore.oneResponse.Passport.series
         : "",
@@ -43,8 +66,8 @@ const PassportForm: React.FC = () => {
     {
       name: "issuedBy",
       label: "Кем выдан",
+      type: "text",
       placeholder: "Кем выдан паспорт",
-      rules: "required|string|between:5,25",
       value: UserDataStore.oneResponse?.Passport
         ? UserDataStore.oneResponse.Passport.issuedBy
         : "",
@@ -52,16 +75,27 @@ const PassportForm: React.FC = () => {
     {
       name: "issuedWhen",
       label: "Когда выдан",
-      placeholder: "Когда выдан паспорт",
       type: "date",
-      rules: "required|string|between:5,25",
+      placeholder: "Когда выдан паспорт",
+      rules: "required|string|between:Введите номер",
       value: UserDataStore.oneResponse?.Passport
         ? UserDataStore.oneResponse.Passport.issuedWhen
         : "",
     },
   ];
-  const passportForm = new MobxReactForm({ fields }, { plugins, hooks });
-  return <FormBase fields={fields} renderForm={passportForm} />;
+
+  let initialValues = {};
+  fields.forEach((e) => {
+    initialValues = Object.assign(initialValues, { [e.name]: e.value });
+  });
+  return (
+    <FormBase
+      initialValues={initialValues as UserData}
+      submit={submit}
+      fields={fields}
+      validation={validationSchema}
+    />
+  );
 };
 
 export default PassportForm;

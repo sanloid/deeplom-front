@@ -13,7 +13,7 @@ const LoginPage: React.FC = () => {
     setLoading(true);
     await Auth.login(logPas);
     setLoading(false);
-    navigate("/profile");
+    navigate("/mydata");
   };
   const [logPas, setLogPas] = useState<LoginDTO>({ login: "", password: "" });
 

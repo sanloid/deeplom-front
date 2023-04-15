@@ -1,25 +1,34 @@
 import React from "react";
-import { plugins } from "../formcfg";
 import UserDataStore from "../../store/UserDataStore";
-// @ts-ignore
-import MobxReactForm from "mobx-react-form";
 import FormBase from "../FormBase";
 import User from "../../api/requests/User";
+import * as Yup from "yup";
+import { ICommon, UserData } from "../../types/UserApiResponse";
 
 const CommonForm: React.FC = () => {
-  const hooks = {
+  const phoneRegExp =
+    /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
+  const submit = async (values: UserData) => {
+    console.log(values);
     // @ts-ignore
-    onSuccess(form) {
-      User.updateCommon(
-        UserDataStore.getDecodedAccessToken().id,
-        form.values()
-      );
-    },
-    // @ts-ignore
-    onSubmit(form) {},
-    // @ts-ignore
-    onError(form) {},
+    const isoDate = new Date(values.dateOfBirth).toISOString();
+    console.log(isoDate);
+    await User.updateCommon(UserDataStore.getDecodedAccessToken().id, {
+      ...values,
+      dateOfBirth: isoDate,
+    } as ICommon);
   };
+
+  const validationSchema = Yup.object({
+    phoneNumber: Yup.string()
+      .required("Введите номер телефона")
+      .matches(phoneRegExp, "Phone number is not valid"),
+    dateOfBirth: Yup.string()
+      .required("Дата рождения")
+      .min(2, "Too Short!")
+      .max(50, "Too Long!"),
+  });
 
   const fields = [
     {
@@ -27,7 +36,6 @@ const CommonForm: React.FC = () => {
       label: "Номер телефона",
       type: "text",
       placeholder: "Номер телефона",
-      rules: "required|string|between:5,25",
       value: UserDataStore.oneResponse?.Common
         ? UserDataStore.oneResponse.Common.phoneNumber
         : "",
@@ -37,14 +45,24 @@ const CommonForm: React.FC = () => {
       label: "Дата рождения",
       type: "date",
       placeholder: "Дата рождения",
-      rules: "required|string|between:5,25",
       value: UserDataStore.oneResponse?.Common
         ? UserDataStore.oneResponse.Common.dateOfBirth
         : "",
     },
   ];
-  const CommonForm = new MobxReactForm({ fields }, { plugins, hooks });
-  return <FormBase fields={fields} renderForm={CommonForm} />;
+
+  let initialValues = {};
+  fields.forEach((e) => {
+    initialValues = Object.assign(initialValues, { [e.name]: e.value });
+  });
+  return (
+    <FormBase
+      initialValues={initialValues as UserData}
+      submit={submit}
+      fields={fields}
+      validation={validationSchema}
+    />
+  );
 };
 
 export default CommonForm;

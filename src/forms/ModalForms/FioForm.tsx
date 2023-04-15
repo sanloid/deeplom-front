@@ -1,28 +1,38 @@
 import React from "react";
-import { plugins } from "../formcfg";
 import UserDataStore from "../../store/UserDataStore";
-// @ts-ignore
-import MobxReactForm from "mobx-react-form";
 import FormBase from "../FormBase";
 import User from "../../api/requests/User";
+import * as Yup from "yup";
+import { IFio, UserData } from "../../types/UserApiResponse";
 
 const FioForm: React.FC = () => {
-  const hooks = {
-    // @ts-ignore
-    onSuccess(form) {
-      User.updateFIO(UserDataStore.getDecodedAccessToken().id, form.values());
-    },
-    // @ts-ignore
-    onSubmit(form) {},
-    // @ts-ignore
-    onError(form) {},
+  const submit = async (values: UserData) => {
+    await User.updateFIO(UserDataStore.getDecodedAccessToken().id, {
+      ...values,
+    } as IFio);
   };
+
+  const validationSchema = Yup.object({
+    firstName: Yup.string()
+      .required("Имя")
+      .min(2, "Too Short!")
+      .max(50, "Too Long!"),
+    lastName: Yup.string()
+      .required("Фамилия")
+      .min(2, "Too Short!")
+      .max(50, "Too Long!"),
+    secondName: Yup.string()
+      .required("Отчество")
+      .min(2, "Too Short!")
+      .max(50, "Too Long!"),
+  });
+
   const fields = [
     {
       name: "firstName",
       label: "Имя",
       placeholder: "Имя",
-      rules: "required|string|between:5,25",
+      type: "text",
       value: UserDataStore.oneResponse?.FIO
         ? UserDataStore.oneResponse.FIO.firstName
         : "",
@@ -30,8 +40,8 @@ const FioForm: React.FC = () => {
     {
       name: "lastName",
       label: "Фамилия",
+      type: "text",
       placeholder: "Фамилия",
-      rules: "required|string|between:5,25",
       value: UserDataStore.oneResponse?.FIO
         ? UserDataStore.oneResponse.FIO.lastName
         : "",
@@ -39,15 +49,26 @@ const FioForm: React.FC = () => {
     {
       name: "secondName",
       label: "Отчество",
+      type: "text",
       placeholder: "Отчество",
-      rules: "required|string|between:5,25",
       value: UserDataStore.oneResponse?.FIO
         ? UserDataStore.oneResponse.FIO.secondName
         : "",
     },
   ];
-  const fioForm = new MobxReactForm({ fields }, { plugins, hooks });
-  return <FormBase fields={fields} renderForm={fioForm} />;
+
+  let initialValues = {};
+  fields.forEach((e) => {
+    initialValues = Object.assign(initialValues, { [e.name]: e.value });
+  });
+  return (
+    <FormBase
+      initialValues={initialValues as UserData}
+      submit={submit}
+      fields={fields}
+      validation={validationSchema}
+    />
+  );
 };
 
 export default FioForm;

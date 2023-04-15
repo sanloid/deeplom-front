@@ -1,4 +1,4 @@
-import { observable, makeObservable, runInAction, action, toJS } from "mobx";
+import { observable, makeObservable, runInAction, action } from "mobx";
 import User from "../api/requests/User";
 import { DecodedToken } from "../types/decodedTokenType";
 import jwt_decode from "jwt-decode";
@@ -18,6 +18,7 @@ class UserDataStore {
       oneResponse: observable,
       userOperator: observable,
       operatorUsersData: observable,
+      loadingOne: observable,
       getOne: action,
       getOperatorsPerm: action,
       getOperatorUsersData: action,

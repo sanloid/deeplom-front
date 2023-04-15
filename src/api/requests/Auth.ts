@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../axios";
 import env from "../env";
 
 export interface LoginDTO {
@@ -13,7 +13,7 @@ export interface LoginResponseDTO {
 export default {
   async login({ login, password }: LoginDTO) {
     const token: LoginResponseDTO = (
-      await axios.post(`${env.baseApiUrl}auth/login`, {
+      await axios.post(`auth/login`, {
         login: login,
         password: password,
       })

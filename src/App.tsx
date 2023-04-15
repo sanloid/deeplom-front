@@ -23,7 +23,7 @@ const App: React.FC = () => {
 
           <Route path="mydata" element={<MyData />} />
           <Route path="find" element={<SearchUsers />} />
-          <Route path="profile" element={<Profile />} />
+          <Route path="profile/:id" element={<Profile />} />
         </Route>
       </Routes>
       <AuthVerify />

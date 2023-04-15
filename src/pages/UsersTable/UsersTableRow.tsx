@@ -6,6 +6,7 @@ import { UserData } from "../../types/UserApiResponse";
 import { JsonToTable } from "react-json-to-table";
 import DataModal from "../../components/Modals/DataModal";
 import RequestModal from "../../components/Modals/RequestModal";
+import { Table } from "flowbite-react";
 
 export interface IUserTableRow {
   atr: any;
@@ -23,7 +24,7 @@ const UsersTableRow: React.FC<IUserTableRow> = ({
   const [visibleDataModal, setVisibleDataModal] = React.useState(false);
   const [visibleReqModal, setVisibleReqModal] = React.useState(false);
   return (
-    <td className="td-default">
+    <Table.Cell className="td-default">
       {atr ? (
         <button onClick={() => setVisibleDataModal(true)}>
           <FiEye />
@@ -52,7 +53,7 @@ const UsersTableRow: React.FC<IUserTableRow> = ({
           />
         </button>
       )}
-    </td>
+    </Table.Cell>
   );
 };
 

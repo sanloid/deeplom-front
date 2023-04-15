@@ -13,18 +13,17 @@ const AddPermissionModal: React.FC<IAddPermissionModal> = ({ perm }) => {
   return (
     <div className="p-5">
       <div>
-        {Object.entries(permission).map((e) => {
-          if (!e[1])
-            return (
-              <Chip
-                name={e[0]}
-                operatorID={id}
-                operatorLogin={login}
-                value={true}
-              />
-            );
-          return <></>;
-        })}
+        {Object.entries(permission).map(([name, value]) =>
+          value ? null : (
+            <Chip
+              key={name}
+              name={name}
+              operatorID={id}
+              operatorLogin={login}
+              value={true}
+            />
+          )
+        )}
       </div>
     </div>
   );

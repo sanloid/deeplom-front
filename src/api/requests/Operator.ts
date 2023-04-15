@@ -16,8 +16,12 @@ export default {
     const response = axios.post(`/operators/request/${id}`, {
       ...reqToData,
     });
-    return response.then((e) => {
-      return e.data;
-    });
+    return response
+      .then((e) => {
+        return e.data;
+      })
+      .catch((e) => {
+        return e;
+      });
   },
 };

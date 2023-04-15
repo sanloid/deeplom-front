@@ -19,13 +19,14 @@ const RequestModal: React.FC<IRequestModal> = ({
 }) => {
   const sendRequestToUserData = async () => {
     setLoading(true);
-    await Operator.sendRequestToUserData(
+    const res = await Operator.sendRequestToUserData(
       UserDataStore.getDecodedAccessToken().id,
       {
         userId: String(userID),
         datatype: dataName.toUpperCase() as DataType,
       }
     );
+    console.log(res);
     setLoading(false);
   };
   const [loading, setLoading] = React.useState(false);

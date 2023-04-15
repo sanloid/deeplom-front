@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { observer } from "mobx-react-lite";
 import UserDataStore from "../../store/UserDataStore";
 import LoadingSpinner from "../../components/UI/LoadingSpinner";
@@ -8,13 +8,15 @@ import FioForm from "../../forms/ModalForms/FioForm";
 import PassportForm from "../../forms/ModalForms/PassportForm";
 import { toJS } from "mobx";
 import MyDataTable from "./MyDataTable";
+import { Button, Tabs, TabsRef } from "flowbite-react";
 
 const MyData: React.FC = () => {
   useEffect(() => {
+    // console.log("effect");
     UserDataStore.getOne();
   }, []);
 
-  const tableRows = [
+  const tables = [
     {
       table: UserDataStore.oneResponse
         ? UserDataStore.oneResponse.Address
@@ -43,17 +45,30 @@ const MyData: React.FC = () => {
     },
   ];
 
+  const [activeTab, setActiveTab] = useState<number>(0);
+  const tabsRef = useRef<TabsRef>(null);
+
+  // console.log(toJS(UserDataStore.oneResponse));
   if (UserDataStore.oneResponse) {
     return (
       <div className="container mx-auto my-10">
-        {tableRows.map((e) => (
-          <MyDataTable
-            key={e.tableName}
-            table={e.table}
-            tableName={e.tableName}
-            children={e.children}
-          />
-        ))}
+        <Tabs.Group
+          aria-label="Default tabs"
+          style="default"
+          ref={tabsRef}
+          onActiveTabChange={(tab) => setActiveTab(tab)}
+        >
+          <Tabs.Item active title="Address" />
+          <Tabs.Item title="Common" />
+          <Tabs.Item title="FIO" />
+          <Tabs.Item title="Passport" />
+        </Tabs.Group>
+        <MyDataTable
+          key={tables[activeTab].tableName}
+          table={tables[activeTab].table}
+          tableName={tables[activeTab].tableName}
+          children={tables[activeTab].children}
+        />
       </div>
     );
   }

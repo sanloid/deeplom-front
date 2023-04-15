@@ -3,6 +3,7 @@ import React from "react";
 import UserDataStore from "../../store/UserDataStore";
 import { useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
+import env from "../../api/env";
 
 export interface IAvatarDropdown {}
 
@@ -17,7 +18,7 @@ const AvatarDropdown: React.FC<IAvatarDropdown> = () => {
       label={
         <Avatar
           alt="User settings"
-          img={UserDataStore.oneResponse?.photo}
+          img={env.baseApiUrl + UserDataStore.oneResponse?.photo}
           rounded={true}
         />
       }

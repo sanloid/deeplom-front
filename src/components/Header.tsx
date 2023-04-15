@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import AvatarDropdown from "./UI/AvatarDropdown";
 import { Navbar } from "flowbite-react";
 import ThemeToggle from "./UI/ThemeToggle";
+import UserDataStore from "../store/UserDataStore";
 
 const Header: React.FC = () => {
   const role = useMemo(() => {
@@ -19,7 +20,10 @@ const Header: React.FC = () => {
         to: role === "USER" ? "operators" : "users",
       },
       { title: "Мои данные", to: "mydata" },
-      { title: "Профиль", to: "profile" },
+      {
+        title: "Профиль",
+        to: `profile/${UserDataStore.getDecodedAccessToken().id}`,
+      },
     ],
     [role]
   );

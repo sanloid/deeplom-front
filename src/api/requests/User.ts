@@ -20,7 +20,6 @@ export default {
     const response = await axios.patch(`users/address/${id}`, {
       ...updateAddressDto,
     });
-    // console.log(response);
     return response.data;
   },
   async updateCommon(id: number, updateCommonDto: ICommon): Promise<any> {
@@ -29,14 +28,12 @@ export default {
       dateOfBirth: new Date(updateCommonDto.dateOfBirth).toISOString(),
     };
     const response = await axios.patch(`users/common/${id}`, { ...body });
-    // console.log(response);
     return response.data;
   },
   async updateFIO(id: number, updateFIODto: IFio): Promise<any> {
     const response = await axios.patch(`users/fio/${id}`, {
       ...updateFIODto,
     });
-    // console.log(response);
     return response.data;
   },
   async updatePassport(id: number, updatePassportDto: IPassport): Promise<any> {
@@ -45,12 +42,10 @@ export default {
       issuedWhen: new Date(updatePassportDto.issuedWhen).toISOString(),
     };
     const response = await axios.patch(`users/passport/${id}`, { ...body });
-    // console.log(response);
     return response.data;
   },
   async getOperatorsPermission(id: number): Promise<OperatorsPermissions> {
     const response = await axios.get(`users/operators/${id}`);
-    // console.log(response);
     return response.data;
   },
   async updateOperatorPermission(
@@ -60,7 +55,6 @@ export default {
     const response = await axios.patch(`users/permission/${id}`, {
       ...updatePermissionDto,
     });
-    // console.log(response);
     return response.data;
   },
   async updateProfilePhoto(file: File, id: number): Promise<any> {
@@ -75,5 +69,9 @@ export default {
       },
       data: formData,
     });
+  },
+  async getProfile(id: number): Promise<any> {
+    const response = await axios.get(`users/profile/${id}`);
+    return response.data;
   },
 };

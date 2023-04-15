@@ -3,6 +3,7 @@ import UserDataStore from "../../store/UserDataStore";
 import LoadingSpinner from "../../components/UI/LoadingSpinner";
 import { observer } from "mobx-react-lite";
 import UsersTableRow from "./UsersTableRow";
+import { Table } from "flowbite-react";
 
 const Users: React.FC = () => {
   React.useEffect(() => {
@@ -11,24 +12,21 @@ const Users: React.FC = () => {
   if (UserDataStore.operatorUsersData)
     return (
       <>
-        <div className="container mx-auto">
-          <table className="table-default">
-            <thead className="thead-default">
-              <tr className="tr-default">
-                <th className="th-default">login</th>
-                <th className="th-default">ФИО</th>
-                <th className="th-default">Адрес</th>
-                <th className="th-default">Пасспорт</th>
-                <th className="th-default">Общие данные</th>
-              </tr>
-            </thead>
-            <tbody className="tbody-default">
+        <div className="container mx-auto my-10">
+          <Table>
+            <Table.Head>
+              <Table.HeadCell>login</Table.HeadCell>
+              <Table.HeadCell>ФИО</Table.HeadCell>
+              <Table.HeadCell>Адрес</Table.HeadCell>
+              <Table.HeadCell>Пасспорт</Table.HeadCell>
+              <Table.HeadCell>Общие данные</Table.HeadCell>
+            </Table.Head>
+            <Table.Body className="tbody-default">
               {UserDataStore.operatorUsersData?.map((e) => {
                 const { id, login, ...permission } = e;
-                // console.log(toJS(e));
                 return (
-                  <tr key={login} className="tr-default">
-                    <td className="td-default">{login}</td>
+                  <Table.Row key={login} className="tr-default">
+                    <Table.Cell className="td-default">{login}</Table.Cell>
                     {Object.entries(permission).map((atr) => (
                       <UsersTableRow
                         atr={atr[1]}
@@ -38,11 +36,11 @@ const Users: React.FC = () => {
                         userLogin={login}
                       />
                     ))}
-                  </tr>
+                  </Table.Row>
                 );
               })}
-            </tbody>
-          </table>
+            </Table.Body>
+          </Table>
         </div>
       </>
     );
